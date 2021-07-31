@@ -40,8 +40,14 @@ public class BotInlineModeService {
                 } else {
                     result = result + "S. ";
                 }
+                String size = "";
+                if (products.get(i).getSize() == null){
+                    size = "yo'q";
+                }else {
+                    size = String.valueOf(products.get(i).getSize());
+                }
                 result = result  + products.get(i).getBrand() + " " + products.get(i).getName() +
-                        " " + products.get(i).getTariff() + " " + products.get(i).getSize();
+                        " " + products.get(i).getTariff() + " " + size;
 
             InlineQueryResultArticle article = new InlineQueryResultArticle();
             article.setTitle(result);
