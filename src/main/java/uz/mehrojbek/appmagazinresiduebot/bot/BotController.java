@@ -122,12 +122,20 @@ public class BotController extends TelegramLongPollingBot {
 
             //Document service
             if (message.hasDocument()) {
+                String res="";
                 try {
                     if (!updaterUser.contains(message.getChatId())) {
                         execute(botTextService.anyMessage(message, "Siz avtorizatsiyadan o'tmagansiz, parolni kiriting!"));
                         return;
                     }
+
                     Document document = message.getDocument();
+                    java.io.File myObj = new java.io.File("downloads/"+document.getFileName());
+                    if (myObj.delete()) {
+                        res = "Uchirildi";
+                    } else {
+                        res = "uchirilmadi";
+                    }
                     GetFile getFile = new GetFile(document.getFileId());
                     File file = execute(getFile);
                     java.io.File originalFile = downloadFile(file);
@@ -140,7 +148,7 @@ public class BotController extends TelegramLongPollingBot {
                     updaterUser.clear();
                     return;
                 }catch (Exception e){
-                    execute(new SendMessage(String.valueOf(message.getChatId()),"downloadda xatolik  "+e.getMessage()));
+                    execute(new SendMessage(String.valueOf(message.getChatId()),"downloadda xatolik  "+e.getMessage() + "\n"+res));
                 }
             }
         }
