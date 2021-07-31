@@ -127,6 +127,7 @@ public class BotController extends TelegramLongPollingBot {
                         }else {
                             execute(botTextService.anyMessage(message,"Avtorizatsiyadan o'tmagansiz parolni kiriting"));
                         }
+                        return;
                     default:
                         if (text.startsWith("mahsulot id:")) {
                             String[] split = text.split(":");

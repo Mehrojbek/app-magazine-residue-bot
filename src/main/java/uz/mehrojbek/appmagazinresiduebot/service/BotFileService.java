@@ -187,11 +187,11 @@ public class BotFileService {
             }
             productRepository.deleteAll();
             productRepository.saveAll(products);
-            sendMessage.setText("Ma'lumotlar omboriga bemorlar ro'yxati qo'shildi");
+            sendMessage.setText("Ma'lumotlar omboriga mahsulotlar ro'yxati qo'shildi");
             return sendMessage;
         } catch (Exception e) {
             e.printStackTrace();
-            sendMessage.setText("Xatolik yuz berdi");
+            sendMessage.setText("Xatolik yuz berdi" + e.getMessage());
             return sendMessage;
         }
     }

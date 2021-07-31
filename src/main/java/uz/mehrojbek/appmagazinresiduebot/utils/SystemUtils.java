@@ -9,6 +9,6 @@ public interface SystemUtils {
     String warehouse = "Skladlar";
     String warehouseProduct = "Sklad";
     String magazineProduct = "Magazine";
-    String delete = "delete";
+    String delete = "/delete";
 
 }
