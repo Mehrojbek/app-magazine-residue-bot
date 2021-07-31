@@ -78,9 +78,15 @@ public class BotTextServiceImpl implements BotTextService{
             } else {
                 result = result + "<b>Skla.   </b>";
             }
+            String size = "";
+            if (product.getSize() == null) {
+                size = "yo'q";
+            }else {
+                size = String.valueOf(product.getSize());
+            }
 
             result = result + "<i>" + product.getType() + "</i>   " + product.getBrand() + "   <b>" + product.getName() +
-                    "</b>   <i>" + product.getTariff() + "</i>   <b>" + product.getSize() + "</b>   " + product.getResidue() +
+                    "</b>   <i>" + product.getTariff() + "</i>   <b>" + size + "</b>   " + product.getResidue() +
                     "   <i>" + product.getCurrency() + "</i>   <b>" + price + "</b>   " + product.getSumPrice() + "\n\n";
             if (result.length() > 3700) {
                 InlineKeyboardMarkup keyingi = botButton.keyingi(product.getId(), brandName);
@@ -160,8 +166,14 @@ public class BotTextServiceImpl implements BotTextService{
                 result = result + "<b>Skla.   </b>";
             }
 
+            String size = "";
+            if (product.getSize() == null) {
+                size = "yo'q";
+            }else {
+                size = String.valueOf(product.getSize());
+            }
             result = result + "<i>" + product.getType() + "</i>   " + product.getBrand() + "   <b>" + product.getName() +
-                    "</b>   <i>" + product.getTariff() + "</i>   <b>" + product.getSize() + "</b>   " + product.getResidue() +
+                    "</b>   <i>" + product.getTariff() + "</i>   <b>" + size + "</b>   " + product.getResidue() +
                     "   <i>" + product.getCurrency() + "</i>   <b>" + price + "</b>   " + product.getSumPrice() + "\n\n";
             if (result.length() > 3700) {
                 InlineKeyboardMarkup keyingi = botButton.keyingi(product.getId());
@@ -196,9 +208,14 @@ public class BotTextServiceImpl implements BotTextService{
             } else {
                 result = result + "<b>Skla.   </b>";
             }
-
+            String size = "";
+            if (product.getSize() == null) {
+                size = "yo'q";
+            }else {
+                size = String.valueOf(product.getSize());
+            }
             result = result + "<i>" + product.getType() + "</i>   " + product.getBrand() + "   <b>" + product.getName() +
-                    "</b>   " + product.getTariff() + "   <b>" + product.getSize() + "</b>   " + product.getResidue() +
+                    "</b>   " + product.getTariff() + "   <b>" + size + "</b>   " + product.getResidue() +
                     "   <i>" + product.getCurrency() + "</i>   <b>" + price + "</b>   " + product.getSumPrice() + "\n\n";
             sendMessage.setText(result);
             return sendMessage;
