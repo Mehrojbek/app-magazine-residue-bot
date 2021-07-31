@@ -122,22 +122,26 @@ public class BotController extends TelegramLongPollingBot {
 
             //Document service
             if (message.hasDocument()) {
-                if (!updaterUser.contains(message.getChatId())) {
-                    execute(botTextService.anyMessage(message, "Siz avtorizatsiyadan o'tmagansiz, parolni kiriting!"));
+                try {
+                    if (!updaterUser.contains(message.getChatId())) {
+                        execute(botTextService.anyMessage(message, "Siz avtorizatsiyadan o'tmagansiz, parolni kiriting!"));
+                        return;
+                    }
+                    Document document = message.getDocument();
+                    GetFile getFile = new GetFile(document.getFileId());
+                    File file = execute(getFile);
+                    java.io.File originalFile = downloadFile(file);
+                    java.io.File downloadFileToSystem = new java.io.File(downloads + "/" + document.getFileName());
+                    FileCopyUtils.copy(originalFile, downloadFileToSystem);
+                    SendMessage sendMessage = botFileService.saveProducts(message, document.getFileName());
+                    execute(sendMessage);
+                    execute(botTextService.anyMessage(message, "File saqlandi"));
+                    tempUser.clear();
+                    updaterUser.clear();
                     return;
+                }catch (Exception e){
+                    execute(new SendMessage(String.valueOf(message.getChatId()),"downloadda xatolik  "+e.getMessage()));
                 }
-                Document document = message.getDocument();
-                GetFile getFile = new GetFile(document.getFileId());
-                File file = execute(getFile);
-                java.io.File originalFile = downloadFile(file);
-                java.io.File downloadFileToSystem = new java.io.File(downloads + "/" + document.getFileName());
-                FileCopyUtils.copy(originalFile, downloadFileToSystem);
-                SendMessage sendMessage = botFileService.saveProducts(message, document.getFileName());
-                execute(sendMessage);
-                execute(botTextService.anyMessage(message, "File saqlandi"));
-                tempUser.clear();
-                updaterUser.clear();
-                return;
             }
         }
 
