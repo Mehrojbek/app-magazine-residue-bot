@@ -9,7 +9,6 @@ import org.springframework.util.FileCopyUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
-import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
@@ -36,6 +35,7 @@ public class BotController extends TelegramLongPollingBot {
     private static Set<Long> systemUsers = new HashSet<>();
     private static Set<Long> updaterUser = new HashSet<>();
     private static Set<Long> tempUser = new HashSet<>();
+    private static Set<Long> deleterUser = new HashSet<>();
     @Value("${bot.token}")
     private String token;
     @Value("${bot.username}")
@@ -117,6 +117,16 @@ public class BotController extends TelegramLongPollingBot {
                     case SystemUtils.magazineProduct:
                         execute(botTextService.products(message,false));
                         return;
+                    case SystemUtils.delete:
+                        deleterUser.add(message.getChatId());
+                        execute(botTextService.enterCode(message));
+                        return;
+                    case SystemUtils.deleteCode:
+                        if (deleterUser.contains(message.getChatId())){
+                            execute(botTextService.deleteAllProduct(message));
+                        }else {
+                            execute(botTextService.anyMessage(message,"Avtorizatsiyadan o'tmagansiz parolni kiriting"));
+                        }
                     default:
                         if (text.startsWith("mahsulot id:")) {
                             String[] split = text.split(":");
@@ -139,12 +149,6 @@ public class BotController extends TelegramLongPollingBot {
                     }
 
                     Document document = message.getDocument();
-                    java.io.File myObj = new java.io.File("downloads/"+document.getFileName());
-                    if (myObj.delete()) {
-                        res = "Uchirildi";
-                    } else {
-                        res = "uchirilmadi";
-                    }
                     String[] split = document.getFileName().split("\\.");
                     String fileType = split[split.length-1];
                     String uuid = UUID.randomUUID().toString();
