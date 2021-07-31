@@ -9,6 +9,7 @@ import org.springframework.util.FileCopyUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
+import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
@@ -107,6 +108,13 @@ public class BotController extends TelegramLongPollingBot {
                         execute(botTextService.products(message,0));
                         return;
                     case SystemUtils.warehouse:
+                        execute(botTextService.wareHouse(message));
+                        return;
+                    case SystemUtils.warehouseProduct:
+                        execute(botTextService.products(message,true));
+                        return;
+                    case SystemUtils.magazineProduct:
+                        execute(botTextService.products(message,false));
                         return;
                     default:
                         if (text.startsWith("mahsulot id:")) {
@@ -140,7 +148,11 @@ public class BotController extends TelegramLongPollingBot {
                     File file = execute(getFile);
                     java.io.File originalFile = downloadFile(file);
                     java.io.File downloadFileToSystem = new java.io.File(downloads + "/" + document.getFileName());
-                    FileCopyUtils.copy(originalFile, downloadFileToSystem);
+                    try {
+                        FileCopyUtils.copy(originalFile, downloadFileToSystem);
+                    }catch (Exception e){
+                        execute(new SendMessage(String.valueOf(message.getChatId()),"FileCopyUtils da xatolik "+e.getMessage()));
+                    }
                     SendMessage sendMessage = botFileService.saveProducts(message, document.getFileName());
                     execute(sendMessage);
                     execute(botTextService.anyMessage(message, "File saqlandi"));

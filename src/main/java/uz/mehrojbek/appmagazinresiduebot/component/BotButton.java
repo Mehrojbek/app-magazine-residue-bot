@@ -27,6 +27,20 @@ public class BotButton {
         return markup;
     }
 
+
+    public ReplyKeyboardMarkup wareHouseButton() {
+        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
+        markup.setOneTimeKeyboard(true);
+        List<KeyboardRow> keyboardRows = new ArrayList();
+        markup.setResizeKeyboard(true);
+        KeyboardRow keyboardRow1 = new KeyboardRow();
+        keyboardRow1.add("Sklad");
+        keyboardRow1.add("Do`kon");
+        keyboardRows.add(keyboardRow1);
+        markup.setKeyboard(keyboardRows);
+        return markup;
+    }
+
     public InlineKeyboardMarkup brand(List<String> brands) {
 
         InlineKeyboardMarkup brandButton = new InlineKeyboardMarkup();

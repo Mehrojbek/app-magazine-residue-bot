@@ -6,5 +6,7 @@ public interface SystemUtils {
     String brand = "Brendlar";
     String category = "Kategoriyalar";
     String warehouse = "Skladlar";
+    String warehouseProduct = "Sklad";
+    String magazineProduct = "Magazine";
 
 }
