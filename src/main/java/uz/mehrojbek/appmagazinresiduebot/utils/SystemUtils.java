@@ -1,8 +1,8 @@
 package uz.mehrojbek.appmagazinresiduebot.utils;
 
 public interface SystemUtils {
-    String enterCode = "123";
-    String excelCode = "1234";
+    String enterCode = "091287";
+    String excelCode = "120934";
     String brand = "Brendlar";
     String category = "Kategoriyalar";
     String warehouse = "Skladlar";
