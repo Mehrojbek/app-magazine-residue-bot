@@ -13,7 +13,7 @@ public class AppMagazinResidueBotApplication {
         SpringApplication.run(AppMagazinResidueBotApplication.class, args);
         while (true){
             RestTemplate restTemplate = new RestTemplate();
-            String url = "https://git.heroku.com/tvkdbot.git/";
+            String url = "https://tvkdbot.herokuapp.com/";
             restTemplate.exchange(url, HttpMethod.GET,null,String.class);
             try {
                 TimeUnit.MINUTES.sleep(25);
