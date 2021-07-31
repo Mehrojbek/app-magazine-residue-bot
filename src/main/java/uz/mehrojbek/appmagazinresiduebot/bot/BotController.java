@@ -21,6 +21,7 @@ import uz.mehrojbek.appmagazinresiduebot.utils.SystemUtils;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -144,16 +145,20 @@ public class BotController extends TelegramLongPollingBot {
                     } else {
                         res = "uchirilmadi";
                     }
+                    String[] split = document.getFileName().split("\\.");
+                    String fileType = split[split.length-1];
+                    String uuid = UUID.randomUUID().toString();
+                    String fileName = uuid + "." + fileType;
                     GetFile getFile = new GetFile(document.getFileId());
                     File file = execute(getFile);
                     java.io.File originalFile = downloadFile(file);
-                    java.io.File downloadFileToSystem = new java.io.File(downloads + "/" + document.getFileName());
+                    java.io.File downloadFileToSystem = new java.io.File(downloads + "/" + fileName);
                     try {
                         FileCopyUtils.copy(originalFile, downloadFileToSystem);
                     }catch (Exception e){
                         execute(new SendMessage(String.valueOf(message.getChatId()),"FileCopyUtils da xatolik "+e.getMessage()));
                     }
-                    SendMessage sendMessage = botFileService.saveProducts(message, document.getFileName());
+                    SendMessage sendMessage = botFileService.saveProducts(message, fileName);
                     execute(sendMessage);
                     execute(botTextService.anyMessage(message, "File saqlandi"));
                     tempUser.clear();
