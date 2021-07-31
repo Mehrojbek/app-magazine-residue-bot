@@ -123,7 +123,8 @@ public class BotFileService {
                                 break;
                             case 6:
                                 try {
-                                    double residue = Double.parseDouble(cell.toString());
+                                    double res = Double.parseDouble(cell.toString());
+                                    int residue = (int) res;
                                     product.setResidue(residue);
                                 } catch (Exception e) {
                                     String response = "7-ustun    " + row.getRowNum()+1 + " - qatorda xatolik bo'ldi " + "\n bu katakda ushbu qiymat kelgan:" + cell +"   xatolik nomi:"+ e.getMessage();

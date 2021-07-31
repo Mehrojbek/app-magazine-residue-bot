@@ -34,7 +34,7 @@ public class Product {
     private Double size;
 
     @Column(nullable = false)
-    private Double residue;
+    private Integer residue;
 
     private String measurement;
 
